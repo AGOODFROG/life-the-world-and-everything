@@ -2,6 +2,8 @@ class life:
     def __init__(self, width, length):
         self.grid = []
         self.cellPoscitons = []
+        #TODO optimise using a forloop to generatat the inn part of the list and store it
+
         for i in range(length):
             self.grid.append([])
             for j in range(width):
@@ -10,6 +12,7 @@ class life:
        
     def __str__(self):
         #TODO fix bug that prints as an array 
+        # TODO add slow mode 
         out = ""
         for i in range(len(self.grid)):
             out += "\n"
@@ -47,9 +50,22 @@ class life:
 
         if self.grid[row+1][collnmum] == [1]: out += 1 #checks down 
 
-        if self.grid[row-1][collnmum] == [1]:out += 1 #check up
+        if self.grid[row-1][collnmum] == [1]:out += 1 #checks up
+
+        if self.grid[row+1][collnmum+1] == [1]:out+= 1 # right down
+
+        if self.grid[row-1][collnmum+1] == [1]:out+= 1 # right up
+
+        if self.grid[row+1][collnmum-1] == [1]:out+= 1 # left down
+
+        if self.grid[row-1][collnmum-1] == [1]:out+= 1 # left up
+
+        
+
 
         return out
+    def addDeadNabor(row, collnum):
+        pass 
 
 
 
@@ -59,13 +75,17 @@ class life:
 
 
 
-myLife = life(10,10)
+myLife = life(10,10) # tested up to 5000 by 5000 takes a while probly 
 
 myLife.addCell(2,2)
 myLife.addCell(2,1)
 myLife.addCell(2,3)
 myLife.addCell(1,2)
-#myLife.addCell(3,2)
+myLife.addCell(3,2)
+myLife.addCell(1,1)
+myLife.addCell(3,3)
+myLife.addCell(1,3)
+#myLife.addCell(3,1)
 
 
 print(myLife) # the litness test for all life on the console!
