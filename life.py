@@ -2,6 +2,7 @@ class life:
     def __init__(self, width, length):
         self.grid = []
         self.cellPoscitons = []
+        self.deadNeighborCells = [] # if a dead cell has three neighbors it is born
         for i in range(length):
             self.grid.append([])
             for j in range(width):
@@ -30,6 +31,9 @@ class life:
     def addCellList(self, array):
         for i, j in array:
             self.addCell(i , j)
+            
+    def addDeadNeibor(self,row, collum):
+        self.deadNeighborCells.append([row, collum])
 
     # TODO add a method that iterates the game of life
     def iterateGrid(self):
@@ -43,13 +47,57 @@ class life:
         #print(collnmum)
         if self.grid[row][collnmum+1] == [1]:out += 1 #checks right
 
-        if self.grid[row][collnmum-1] == [1]:out += 1 # checks left
+        elif self.grid[row][collnmum+1] == [0]: 
+            self.addDeadNeibor(row, collnmum+1)
 
-        if self.grid[row+1][collnmum] == [1]: out += 1 #checks down 
+        if self.grid[row][collnmum-1] == [1]:
+            out += 1 # checks left
 
-        if self.grid[row-1][collnmum] == [1]:out += 1 #check up
+        elif self.grid[row][collnmum-1] == [0]: 
+            self.addDeadNeibor(row, collnmum-1)
+            
+        if self.grid[row+1][collnmum] == [1]: 
+            out += 1 #checks down 
+
+        elif self.grid[row+1][collnmum] == [0]: 
+            self.addDeadNeibor(row+1, collnmum)
+            
+        if self.grid[row-1][collnmum] == [1]:
+            out += 1 #check up
+
+        elif self.grid[row-1][collnmum] == [0]: 
+            self.addDeadNeibor(row-1, collnmum)
+            
+        if self.grid[row+1][collnmum+1] == [1]:
+            out+= 1 # right down
+
+        elif self.grid[row+1][collnmum+1] == [0]: 
+            self.addDeadNeibor(row+1, collnmum+1)
+            
+        if self.grid[row-1][collnmum+1] == [1]:
+            out+= 1 # right up
+
+        elif self.grid[row-1][collnmum+1] == [0]: 
+            self.addDeadNeibor(row-1, collnmum+1)
+            
+        if self.grid[row+1][collnmum-1] == [1]:
+            out += 1 # left down
+
+        elif self.grid[row+1][collnmum-1] == [0]: 
+            self.addDeadNeibor(row+1, collnmum-1)
+            
+        if self.grid[row-1][collnmum-1] == [1]:
+            out+= 1 # left up
+
+        elif self.grid[row-1][collnmum-1] == [0]: 
+            self.addDeadNeibor(row-1, collnmum-1)
+            
+        print(self.grid[0][0] == [0])
 
         return out
+   
+    
+
 
 
 
@@ -62,14 +110,16 @@ class life:
 myLife = life(10,10)
 
 myLife.addCell(2,2)
-myLife.addCell(2,1)
-myLife.addCell(2,3)
-myLife.addCell(1,2)
+#myLife.addCell(2,1)
+#myLife.addCell(2,3)
+#myLife.addCell(1,2)
 #myLife.addCell(3,2)
 
 
 print(myLife) # the litness test for all life on the console!
 print(myLife.getNabors([2,2]))
-print(myLife.cellPoscitons)
+#print(myLife.cellPoscitons)
+print(myLife.deadNeighborCells)
+
 
 
