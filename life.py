@@ -2,9 +2,6 @@ class life:
     def __init__(self, width, length):
         self.grid = []
         self.livingCellPoscitons = []# living cel
-        for i in range(width):
-            self.livingCellPoscitons[i] = [] 
-
         self.deadNeighborCells = [] # if a dead cell has three neighbors it is born
         for i in range(length):
             self.grid.append([])
@@ -28,9 +25,9 @@ class life:
     """
     def addCell(self, row, column):
         self.grid[row][column] = [1]
-        self.livingCellPoscitons[row].append(column) # appends to a list witch is a value in a dict
+        self.livingCellPoscitons.append([row, column]) # appends to a list witch is a value in a dict
     
-    # TODO make method that adds a list of cells
+    # make method that adds a list of cells
     def addCellList(self, array):
         for i, j in array:
             self.addCell(i , j)
@@ -53,7 +50,6 @@ class life:
         if self.grid[row][collnmum+1] == [1]:out += 1 #checks right
 
         elif self.grid[row][collnmum+1] == [0]: 
-            self.addDeadNeibor(row, collnmum+1)
             self.addDeadNeibor(row, collnmum+1)
 
         if self.grid[row][collnmum-1] == [1]:
@@ -98,34 +94,53 @@ class life:
         elif self.grid[row-1][collnmum-1] == [0]: 
             self.addDeadNeibor(row-1, collnmum-1)
             
-        print(self.grid[0][0] == [0])
-
-        return out
-   
-    
-
-
-
-
         
 
+        return out
+    def runDeathLogic(self):
+        next_cell_gen = []
+        for cell in self.livingCellPoscitons: 
+            #print(not(self.getNabors(cell) > 3 or self.getNabors(cell) < 2)) 
+            print(self.getNabors(cell)) 
+            if not(self.getNabors(cell) > 3 or self.getNabors(cell) < 2): # chekcing if overpopulated or isolated
+                next_cell_gen.append(cell)
+                
+            else:
+                self.remove_cell_from_grid(cell)
+        self.livingCellPoscitons = next_cell_gen
+        print(next_cell_gen)
+
+
+    def remove_cell_from_grid(self, cell):
+        row = cell[0]
+        collum = cell[1]
+        self.grid[row][collum] = [0]
+                
+               
+                
 
 
 
+       
 
 myLife = life(10,10)
 
+myLife.addCell(0,0)
+myLife.addCell(1,1)
 myLife.addCell(2,2)
-#myLife.addCell(2,1)
-#myLife.addCell(2,3)
-#myLife.addCell(1,2)
-#myLife.addCell(3,2)
+
+print(myLife.getNabors([1,1]))
+
+print(myLife)
+myLife.runDeathLogic()
+print(myLife)
+myLife.runDeathLogic()
 
 
 print(myLife) # the litness test for all life on the console!
-print(myLife.getNabors([2,2]))
+#print(myLife.getNabors([2,2]))
 #print(myLife.cellPoscitons)
-print(myLife.deadNeighborCells)
+#print(myLife.deadNeighborCells)
 
 
 
