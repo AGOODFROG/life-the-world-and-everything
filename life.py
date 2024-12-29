@@ -1,7 +1,10 @@
 class life:
     def __init__(self, width, length):
         self.grid = []
-        self.livingCellPoscitons = []# living cel
+        self.livingCellPoscitons = {}# living cel
+        for i in range(width):
+            self.livingCellPoscitons[i] = [] 
+
         self.deadNeighborCells = [] # if a dead cell has three neighbors it is born
         for i in range(length):
             self.grid.append([])
@@ -25,7 +28,7 @@ class life:
     """
     def addCell(self, row, column):
         self.grid[row][column] = [1]
-        self.livingCellPoscitons.append([row,column])
+        self.livingCellPoscitons[row].append(column) # appends to a list witch is a value in a dict
     
     # make method that adds a list of cells
     def addCellList(self, array):
