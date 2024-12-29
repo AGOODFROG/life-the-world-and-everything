@@ -1,14 +1,10 @@
 class life:
     def __init__(self, width, length):
         self.grid = []
-<<<<<<< HEAD
         self.livingCellPoscitons = {}# living cel
         for i in range(width):
             self.livingCellPoscitons[i] = [] 
 
-=======
-        self.cellPoscitons = []
->>>>>>> parent of c713731 (made knew brach)
         self.deadNeighborCells = [] # if a dead cell has three neighbors it is born
         for i in range(length):
             self.grid.append([])
@@ -32,11 +28,7 @@ class life:
     """
     def addCell(self, row, column):
         self.grid[row][column] = [1]
-<<<<<<< HEAD
         self.livingCellPoscitons[row].append(column) # appends to a list witch is a value in a dict
-=======
-        self.cellPoscitons.append([row,column])
->>>>>>> parent of c713731 (made knew brach)
     
     # TODO make method that adds a list of cells
     def addCellList(self, array):
@@ -59,7 +51,7 @@ class life:
         if self.grid[row][collnmum+1] == [1]:out += 1 #checks right
 
         elif self.grid[row][collnmum+1] == [0]: 
-            self.addDeadNeibor(row, collnmum+1)
+            self.addDeadNeibor(row, collnmum+)
 
         if self.grid[row][collnmum-1] == [1]:
             out += 1 # checks left
