@@ -42,6 +42,8 @@ class life:
     def iterateGrid(self):
         pass
 
+    
+
     # TODO get nabors
     def getNabors(self, postion):
         row = postion[0]
@@ -51,6 +53,7 @@ class life:
         if self.grid[row][collnmum+1] == [1]:out += 1 #checks right
 
         elif self.grid[row][collnmum+1] == [0]: 
+            self.addDeadNeibor(row, collnmum+1)
             self.addDeadNeibor(row, collnmum+1)
 
         if self.grid[row][collnmum-1] == [1]:
