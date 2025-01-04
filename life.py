@@ -48,64 +48,19 @@ class life:
         collnmum = postion[1]
         out = 0
         #print(collnmum)
-        if row == 1 and collnmum == 1:
-            out += 2
-        if self.grid[row][collnmum+1] == [1]:out += 1 #checks right
-
-        elif self.grid[row][collnmum+1] == [0]: 
-            self.addDeadNeibor(row, collnmum+1)
-
-        if self.grid[row][collnmum-1] == [1]:
-            out += 1 # checks left
-
-        elif self.grid[row][collnmum-1] == [0]: 
-            self.addDeadNeibor(row, collnmum-1)
-            
-        if self.grid[row+1][collnmum] == [1]: 
-            out += 1 #checks down 
-
-        elif self.grid[row+1][collnmum] == [0]: 
-            self.addDeadNeibor(row+1, collnmum)
-            
-        if self.grid[row-1][collnmum] == [1]:
-            out += 1 #check up
-
-        elif self.grid[row-1][collnmum] == [0]: 
-            self.addDeadNeibor(row-1, collnmum)
-            
-        if self.grid[row+1][collnmum+1] == [1]:
-            out+= 1 # right down
-
-        elif self.grid[row+1][collnmum+1] == [0]: 
-            self.addDeadNeibor(row+1, collnmum+1)
-            
-        if self.grid[row-1][collnmum+1] == [1]:
-            out+= 1 # right up
-
-        elif self.grid[row-1][collnmum+1] == [0]: 
-            self.addDeadNeibor(row-1, collnmum+1)
-            
-        if self.grid[row+1][collnmum-1] == [1]:
-            out += 1 # left down
-
-        elif self.grid[row+1][collnmum-1] == [0]: 
-            self.addDeadNeibor(row+1, collnmum-1)
-            
-        if self.grid[row-1][collnmum-1] == [1]:
-            out+= 1 # left up
-
-        elif self.grid[row-1][collnmum-1] == [0]: 
-            self.addDeadNeibor(row-1, collnmum-1)
-        return out
-            
-        
-
+        cell_postions =[[row+1, collnmum+1],[row+1, collnmum],[row-1, collnmum+1],
+                        [row, collnmum+1],                    [row, collnmum-1],
+                        [row+1, collnmum-1],[row-1, collnmum],[row-1, collnmum-1],]
+        for cell in cell_postions:
+            #TODO REFATOR
+            r = cell[0]
+            c = cell[1]
+            if self.grid[r][c] == [0]:
+                out += 1
         return out
     def runDeathLogic(self):
         next_cell_gen = []
         for cell in self.livingCellPoscitons: 
-            print(not(self.getNabors(cell) > 3 or self.getNabors(cell) < 2)) 
-            print(self.getNabors(cell), cell) 
             if not(self.getNabors(cell) > 3 or self.getNabors(cell) < 2): # chekcing if overpopulated or isolated
                 next_cell_gen.append(cell)
                 
@@ -132,9 +87,9 @@ class life:
 
 myLife = life(10,10)
 
-myLife.addCell(0,0)
+#myLife.addCell(0,0)
 myLife.addCell(1,1)
-myLife.addCell(2,2)
+#myLife.addCell(2,2)
 
 print(myLife.getNabors([1,1]))
 
@@ -143,7 +98,7 @@ myLife.runDeathLogic()
 
 
 
-print(myLife) # the litness test for all life on the console!
+#print(myLife) # the litness test for all life on the console!
 #print(myLife.getNabors([2,2]))
 #print(myLife.cellPoscitons)
 #print(myLife.deadNeighborCells)
