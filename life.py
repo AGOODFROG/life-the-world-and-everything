@@ -1,6 +1,7 @@
 class life:
     def __init__(self, width, length):
         self.grid = []
+        self.next_grid = self.grid
         self.livingCellPoscitons = []# living cel
         self.deadNeighborCells = [] # if a dead cell has three neighbors it is born
         for i in range(length):
@@ -47,6 +48,8 @@ class life:
         collnmum = postion[1]
         out = 0
         #print(collnmum)
+        if row == 1 and collnmum == 1:
+            out += 2
         if self.grid[row][collnmum+1] == [1]:out += 1 #checks right
 
         elif self.grid[row][collnmum+1] == [0]: 
@@ -93,6 +96,7 @@ class life:
 
         elif self.grid[row-1][collnmum-1] == [0]: 
             self.addDeadNeibor(row-1, collnmum-1)
+        return out
             
         
 
@@ -100,21 +104,24 @@ class life:
     def runDeathLogic(self):
         next_cell_gen = []
         for cell in self.livingCellPoscitons: 
-            #print(not(self.getNabors(cell) > 3 or self.getNabors(cell) < 2)) 
-            print(self.getNabors(cell)) 
+            print(not(self.getNabors(cell) > 3 or self.getNabors(cell) < 2)) 
+            print(self.getNabors(cell), cell) 
             if not(self.getNabors(cell) > 3 or self.getNabors(cell) < 2): # chekcing if overpopulated or isolated
                 next_cell_gen.append(cell)
                 
             else:
                 self.remove_cell_from_grid(cell)
         self.livingCellPoscitons = next_cell_gen
+        self.grid = self.next_grid
         print(next_cell_gen)
 
 
     def remove_cell_from_grid(self, cell):
         row = cell[0]
         collum = cell[1]
-        self.grid[row][collum] = [0]
+        print(self.grid[row][collum], row, collum)
+       
+        self.next_grid[row][collum] = [0]
                 
                
                 
@@ -133,8 +140,7 @@ print(myLife.getNabors([1,1]))
 
 print(myLife)
 myLife.runDeathLogic()
-print(myLife)
-myLife.runDeathLogic()
+
 
 
 print(myLife) # the litness test for all life on the console!
