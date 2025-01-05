@@ -3,7 +3,7 @@ class life:
         #self.next_grid = [] # set to an empty list to avoid wirrd stuff happening
         self.grid =  [[0 for i in range(cols)] for j in range(rows)]
         self.livingCellPoscitons = []# living cel
-        self.deadNeighborCells = [] # if a dead cell has three neighbors it is born
+        self.deadNeighborCells = [] # if a dead cell has three neighbors it is born, no need for dublicates just slows things down 
         
         '''
         for i in range(length):
@@ -47,8 +47,9 @@ class life:
         for i, j in array:
             self.addCell(i , j)
             
-    def addDeadNeibor(self,row, collum):
-        self.deadNeighborCells.append([row, collum])
+    def addDeadNeibor(self, cell):
+        #print(cell)
+        self.deadNeighborCells.append(cell)
 
     # TODO add a method that iterates the game of life
     def iterateGrid(self):
@@ -63,7 +64,7 @@ class life:
         out = 0
         #print(collnmum)
         cell_postions =[[row+1, collnmum+1],[row+1, collnmum],[row-1, collnmum+1],
-                        [row, collnmum+1],                    [row, collnmum-1],
+                        [row, collnmum+1],                      [row, collnmum-1],
                         [row+1, collnmum-1],[row-1, collnmum],[row-1, collnmum-1],]
         for cell in cell_postions:
             #TODO implent add dead neibor
@@ -71,6 +72,8 @@ class life:
             col = cell[1]
             if self.grid[row][col] == 1:
                 out += 1
+            else:
+                self.addDeadNeibor(cell)
         return out
 
     # returns cells to kill
@@ -104,8 +107,8 @@ class life:
 myLife = life(10,10)
 
 
-myLife.addCell(1,1)
-myLife.addCell(2,2)
+#myLife.addCell(1,1)
+#myLife.addCell(2,2)
 #myLife.addCell(2,3)
 #myLife.addCell(3,2)
 myLife.addCell(3,3)
@@ -114,7 +117,7 @@ myLife.addCell(3,3)
 
 print(myLife.runDeathLogic())
 
-
+print("dead nierbors",myLife.deadNeighborCells)
 
 print("final",myLife) # the litness test for all life on the console!
 #print(myLife.getNabors([2,2]))
