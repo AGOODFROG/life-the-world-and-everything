@@ -1,13 +1,18 @@
 class life:
     def __init__(self, width, length):
         self.grid = []
-        self.next_grid = self.grid
+        self.next_grid = [] # set to an empty list to avoid wirrd stuff happening
+        self.grid= []
         self.livingCellPoscitons = []# living cel
         self.deadNeighborCells = [] # if a dead cell has three neighbors it is born
         for i in range(length):
             self.grid.append([])
             for j in range(width):
                 self.grid[-1].append([0])
+        self.DEAD_GRID = self.grid
+        print(self.DEAD_GRID)
+        
+        
             
        
     def __str__(self):
@@ -52,53 +57,56 @@ class life:
                         [row, collnmum+1],                    [row, collnmum-1],
                         [row+1, collnmum-1],[row-1, collnmum],[row-1, collnmum-1],]
         for cell in cell_postions:
-            #TODO REFATOR
-            r = cell[0]
-            c = cell[1]
-            if self.grid[r][c] == [0]:
+            #TODO implent add dead neibor
+            row = cell[0]
+            col = cell[1]
+            if self.grid[row][col] == [1]:
                 out += 1
         return out
     def runDeathLogic(self):
-        next_cell_gen = []
-        for cell in self.livingCellPoscitons: 
-            if not(self.getNabors(cell) > 3 or self.getNabors(cell) < 2): # chekcing if overpopulated or isolated
-                next_cell_gen.append(cell)
+       # get list of living cell to kill
+       print(self.livingCellPoscitons)
+       print(self.next_grid)
+
+       # go over each cell that may or may not be killed
+       for cell in self.livingCellPoscitons:
+            #print(cell, self.getNabors(cell))
+            next_cell_gen = []
+            print(self.DEAD_GRID)
+            #checks if should live
+            if self.getNabors(cell) == 2 or self.getNabors(cell) == 3:
+                #store cell so it can be added
                 
+                print("Live be free")
             else:
-                self.remove_cell_from_grid(cell)
-        self.livingCellPoscitons = next_cell_gen
-        self.grid = self.next_grid
-        print(next_cell_gen)
+                print("die in a fucking hole")
 
 
-    def remove_cell_from_grid(self, cell):
-        row = cell[0]
-        collum = cell[1]
-        print(self.grid[row][collum], row, collum)
-       
-        self.next_grid[row][collum] = [0]
+       # if cell should live copy to new grid of all dead cells
+
+
+
+       # if not do nothing
+
+
+    
                 
-               
-                
-
-
-
-       
-
 myLife = life(10,10)
 
-#myLife.addCell(0,0)
-myLife.addCell(1,1)
-#myLife.addCell(2,2)
 
-print(myLife.getNabors([1,1]))
+#myLife.addCell(1,1)
+myLife.addCell(2,2)
+myLife.addCell(3,3)
+myLife.addCell(4,2)
+myLife.addCell(3,1)
 
-print(myLife)
+
+
 myLife.runDeathLogic()
 
 
 
-#print(myLife) # the litness test for all life on the console!
+print("final",myLife) # the litness test for all life on the console!
 #print(myLife.getNabors([2,2]))
 #print(myLife.cellPoscitons)
 #print(myLife.deadNeighborCells)
