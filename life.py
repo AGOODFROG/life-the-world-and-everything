@@ -8,7 +8,7 @@ class life:
         for i in range(length):
             self.grid.append([])
             for j in range(width):
-                self.grid[-1].append([0])
+                self.grid[-1].append(0)
         self.DEAD_GRID = self.grid
         print(self.DEAD_GRID)
         
@@ -17,20 +17,28 @@ class life:
        
     def __str__(self):
         #TODO fix bug that prints as an array 
-        out = ""
-        for i in range(len(self.grid)):
+        return self.formatGrid(self.grid)
+
+        
+    def formatGrid(self, grid):
+         out = ""
+         for i in range(len(grid)):
             out += "\n"
-            for j in range(len(self.grid)):
-                val = self.grid[i][j]
-                out += f"{val} "    
-        return out
+            for j in range(len(grid)):
+                val = grid[i][j]
+                if val == 1:
+                    out += "[#]" 
+                else:
+                    out += "[ ]" 
+         return out
+        
     """
     addCell is only for adding a single cells and 
 
     works by inputing a the row and column of the new cell
     """
     def addCell(self, row, column):
-        self.grid[row][column] = [1]
+        self.grid[row][column] = 1
         self.livingCellPoscitons.append([row, column]) # appends to a list witch is a value in a dict
     
     # make method that adds a list of cells
@@ -60,13 +68,13 @@ class life:
             #TODO implent add dead neibor
             row = cell[0]
             col = cell[1]
-            if self.grid[row][col] == [1]:
+            if self.grid[row][col] == 1:
                 out += 1
         return out
     def runDeathLogic(self):
        # get list of living cell to kill
        print(self.livingCellPoscitons)
-       print(self.next_grid)
+       print(self.formatGrid(self.next_grid))
 
        # go over each cell that may or may not be killed
        for cell in self.livingCellPoscitons:
@@ -96,9 +104,9 @@ myLife = life(10,10)
 
 #myLife.addCell(1,1)
 myLife.addCell(2,2)
+myLife.addCell(2,3)
+myLife.addCell(3,2)
 myLife.addCell(3,3)
-myLife.addCell(4,2)
-myLife.addCell(3,1)
 
 
 
