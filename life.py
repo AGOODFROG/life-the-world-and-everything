@@ -1,15 +1,16 @@
 class life:
-    def __init__(self, width, length):
-       
+    def __init__(self, cols, rows):
         #self.next_grid = [] # set to an empty list to avoid wirrd stuff happening
-        self.grid= []
+        self.grid =  [[0 for i in range(cols)] for j in range(rows)]
         self.livingCellPoscitons = []# living cel
         self.deadNeighborCells = [] # if a dead cell has three neighbors it is born
+        
+        '''
         for i in range(length):
             self.grid.append([])
             for j in range(width):
                 self.grid[-1].append(0)
-        
+        '''
       
         
         
@@ -71,21 +72,24 @@ class life:
             if self.grid[row][col] == 1:
                 out += 1
         return out
+
+    # returns cells to kill
     def runDeathLogic(self):
        # get list of living cell to kill
-       print(self.livingCellPoscitons)
-      
-
+       #print(self.livingCellPoscitons)
+        cell_to_kill = []
        # go over each cell that may or may not be killed
-       for cell in self.livingCellPoscitons:
+        for cell in self.livingCellPoscitons:
             #print(cell, self.getNabors(cell))
-            next_cell_gen = []
             #checks if should live
-            if self.getNabors(cell) == 2 or self.getNabors(cell) == 3:
-                #store cell so it can be added 
-                print("Live be free")
-            else:
-                print("die in a fucking hole")
+            if self.getNabors(cell) != 2 and self.getNabors(cell) != 3:
+                #store cell so it can be  killed by iterate life
+               
+                cell_to_kill.append(cell)
+                
+            
+        print("next cell gen:",cell_to_kill)
+        return cell_to_kill
 
 
        # if cell should live copy to new grid of all dead cells
@@ -100,15 +104,15 @@ class life:
 myLife = life(10,10)
 
 
-#myLife.addCell(1,1)
+myLife.addCell(1,1)
 myLife.addCell(2,2)
-myLife.addCell(2,3)
-myLife.addCell(3,2)
+#myLife.addCell(2,3)
+#myLife.addCell(3,2)
 myLife.addCell(3,3)
 
 
 
-myLife.runDeathLogic()
+print(myLife.runDeathLogic())
 
 
 
