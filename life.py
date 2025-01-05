@@ -1,7 +1,7 @@
 class life:
     def __init__(self, width, length):
-        self.grid = []
-        self.next_grid = [] # set to an empty list to avoid wirrd stuff happening
+       
+        #self.next_grid = [] # set to an empty list to avoid wirrd stuff happening
         self.grid= []
         self.livingCellPoscitons = []# living cel
         self.deadNeighborCells = [] # if a dead cell has three neighbors it is born
@@ -9,8 +9,8 @@ class life:
             self.grid.append([])
             for j in range(width):
                 self.grid[-1].append(0)
-        self.DEAD_GRID = self.grid
-        print(self.DEAD_GRID)
+        
+      
         
         
             
@@ -74,17 +74,15 @@ class life:
     def runDeathLogic(self):
        # get list of living cell to kill
        print(self.livingCellPoscitons)
-       print(self.formatGrid(self.next_grid))
+      
 
        # go over each cell that may or may not be killed
        for cell in self.livingCellPoscitons:
             #print(cell, self.getNabors(cell))
             next_cell_gen = []
-            print(self.DEAD_GRID)
             #checks if should live
             if self.getNabors(cell) == 2 or self.getNabors(cell) == 3:
-                #store cell so it can be added
-                
+                #store cell so it can be added 
                 print("Live be free")
             else:
                 print("die in a fucking hole")
