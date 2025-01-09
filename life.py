@@ -41,7 +41,11 @@ class life:
 
     # TODO add a method that iterates the game of life
     def iterateGrid(self):
-        pass
+        cell_to_kill = self.runDeathLogic()
+        for i in cell_to_kill:
+            row = i[0]
+            collum = i[1]
+            self.grid[row][collum] = 0
 
     
 
@@ -92,13 +96,13 @@ myLife = life(10,10)
 
 #myLife.addCell(1,1)
 #myLife.addCell(2,2)
-myLife.addCell(2,3)
+#myLife.addCell(2,3)
 myLife.addCell(3,2)
 myLife.addCell(3,3)
 
 
 
-print(myLife.runDeathLogic())
+print(myLife.iterateGrid())
 
 print("dead nierbors",myLife.deadNeighborCells)
 
