@@ -1,10 +1,10 @@
 class life:
-    def __init__(self, cols, rows):
-        self.grid =  [[0 for i in range(cols)] for j in range(rows)]
+    def __init__(self, s):
+        self.grid =  [[0 for i in range(s)] for j in range(s)]
         self.livingCellPoscitons = []# living cel
         #TODO fix dubliation in deadNeighorCells
-        self.deadNeighborCells = [] # if a dead cell has three neighbors it is born, no need for dublicates just slows things down 
-
+        self.deadNeighborCells = set({}) # if a dead cell has three neighbors it is born, no need for dublicates just slows things down 
+        
     def __str__(self):
         #TODO fix bug that prints as an array 
         return self.formatGrid(self.grid)
@@ -37,7 +37,7 @@ class life:
             
     def addDeadNeibor(self, cell):
         #print(cell)
-        self.deadNeighborCells.append(cell)
+        self.deadNeighborCells.add(cell)
 
     # TODO add a method that iterates the game of life
     def iterateGrid(self):
@@ -46,11 +46,15 @@ class life:
             row = i[0]
             collum = i[1]
             self.grid[row][collum] = 0
+        cells_to_birth = self.birthLogic()
+        for i in cells_to_birth:
+            self.addCell
 
     
 
     # TODO get nabors
-    def getNabors(self, postion):
+    def getNabors(self, postion, addDeadNeibors = True):
+        #TODO store result in varible to avoid exstra loops running
         row = postion[0]
         collnmum = postion[1]
         out = 0
@@ -65,6 +69,7 @@ class life:
             if self.grid[row][col] == 1:
                 out += 1
             else:
+                print(cell)
                 self.addDeadNeibor(cell)
         return out
 
@@ -82,21 +87,25 @@ class life:
     
     def birthLogic(self):
         # keep log of cells to be born
-        cells_to_birth = []
+        cells_to_birth = set({}) # no duplication
         # iterate of possible cells to be born
+        for i in self.deadNeighborCells:
+            if self.getNabors(i, False) == 3: cells_to_birth.append(i)
 
         #return cells to be born
+        print("test:", cells_to_birth)
+        return cells_to_birth
 
 
 
     
                 
-myLife = life(10,10)
+myLife = life(10)
 
 
-#myLife.addCell(1,1)
-#myLife.addCell(2,2)
-#myLife.addCell(2,3)
+myLife.addCell(1,1)
+myLife.addCell(2,2)
+myLife.addCell(2,3)
 myLife.addCell(3,2)
 myLife.addCell(3,3)
 
