@@ -103,7 +103,7 @@ class life:
 myLife = life(10)
 
 
-myLife.addCell(1,1)
+
 myLife.addCell(2,2)
 myLife.addCell(2,3)
 myLife.addCell(3,2)
