@@ -6,7 +6,6 @@ class life:
         self.deadNeighborCells = set({}) # if a dead cell has three neighbors it is born, no need for dublicates just slows things down 
         
     def __str__(self):
-        #TODO fix bug that prints as an array 
         return self.formatGrid(self.grid)
     # reduant?    
     def formatGrid(self, grid):
@@ -36,29 +35,46 @@ class life:
             self.addCell(i , j)
             
     def addDeadNeibor(self, cell):
-        #print(cell)
+       
         self.deadNeighborCells.add(cell)
 
     # TODO add a method that iterates the game of life
     def iterateGrid(self):
+        print(myLife)# the litness test for all life on the console!
+        
+
         cell_to_kill = self.runDeathLogic()
-        for i in cell_to_kill:
-            row = i[0]
-            collum = i[1]
-            self.grid[row][collum] = 0
         cells_to_birth = self.birthLogic()
-        for i in cells_to_birth:
-            self.addCell
+
+        print("cells to kill", cell_to_kill)
+        print("cells to birth:", cells_to_birth)
+        self.storeDeadNeigors()
+        
+        for cell in cell_to_kill:
+            print(cell)
+            row = cell[0]
+            collum = cell[1]
+            print("dead new cell",self.grid[row][collum])
+            self.grid[row][collum] = 0
+        cell_to_kill.clear()
+       
+        for cell in cells_to_birth:
+            row = cell[0]
+            col = cell[1]
+            self.addCell(row, col)
+        cells_to_birth.clear()
+
+        
 
     
 
     # TODO get nabors
-    def getNabors(self, postion, addDeadNeibors = True):
+    def getNabors(self, postion, addDeadNeibors = False):
         #TODO store result in varible to avoid exstra loops running
         row = postion[0]
         collnmum = postion[1]
         out = 0
-        #print(collnmum)
+        
         cell_postions =[(row+1, collnmum+1),(row+1, collnmum),(row-1, collnmum+1),
                         (row, collnmum+1),                      (row, collnmum-1),
                         (row+1, collnmum-1),(row-1, collnmum),(row-1, collnmum-1),]
@@ -68,8 +84,7 @@ class life:
             col = cell[1]
             if self.grid[row][col] == 1:
                 out += 1
-            else:
-                print(cell)
+            elif addDeadNeibors:
                 self.addDeadNeibor(cell)
         return out
 
@@ -80,21 +95,25 @@ class life:
         for cell in self.livingCellPoscitons:
             #checks if should die
             if self.getNabors(cell) != 2 and self.getNabors(cell) != 3:
-                #store cell so it can be  killed by iterate life
                 cell_to_kill.append(cell)
 
         return cell_to_kill
     
     def birthLogic(self):
-        # keep log of cells to be born
         cells_to_birth = set({}) # no duplication
-        # iterate of possible cells to be born
+        # deadNeighors are cells that may or may not be
         for i in self.deadNeighborCells:
-            if self.getNabors(i, False) == 3: cells_to_birth.append(i)
+            if self.getNabors(i) == 3: cells_to_birth.add(i)
 
         #return cells to be born
-        print("test:", cells_to_birth)
+        
         return cells_to_birth
+    def storeDeadNeigors(self):
+        #print(self.livingCellPoscitons)
+        for cell in self.livingCellPoscitons:
+            self.getNabors(cell, True)
+        
+       
 
 
 
@@ -109,13 +128,23 @@ myLife.addCell(2,3)
 myLife.addCell(3,2)
 myLife.addCell(3,3)
 
+myLife.addCell(5,5)
+myLife.addCell(5,4)
+myLife.addCell(4,5)
+myLife.addCell(4,4)
 
 
-print(myLife.iterateGrid())
 
-print("dead nierbors",myLife.deadNeighborCells)
 
-print("final",myLife) # the litness test for all life on the console!
+
+myLife.iterateGrid()
+myLife.iterateGrid()
+myLife.iterateGrid()
+myLife.iterateGrid()
+
+#print("dead nierbors",myLife.deadNeighborCells)
+
+ # the litness test for all life on the console!
 #print(myLife.getNabors([2,2]))
 #print(myLife.cellPoscitons)
 #print(myLife.deadNeighborCells)
