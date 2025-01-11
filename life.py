@@ -1,7 +1,7 @@
 class life:
     def __init__(self, s):
         self.grid =  [[0 for i in range(s)] for j in range(s)]
-        self.livingCellPoscitons = []# living cel
+        self.livingCellPoscitons = set()# living cel
         #TODO fix dubliation in deadNeighorCells
         self.deadNeighborCells = set({}) # if a dead cell has three neighbors it is born, no need for dublicates just slows things down 
         
@@ -27,7 +27,7 @@ class life:
     """
     def addCell(self, row, column):
         self.grid[row][column] = 1
-        self.livingCellPoscitons.append([row, column]) 
+        self.livingCellPoscitons.add((row, column)) 
     
     # make method that adds a list of cells
     def addCellList(self, array):
@@ -35,20 +35,21 @@ class life:
             self.addCell(i , j)
             
     def addDeadNeibor(self, cell):
-       
         self.deadNeighborCells.add(cell)
 
     # TODO add a method that iterates the game of life
     def iterateGrid(self):
-        print(myLife)# the litness test for all life on the console!
+        print("top",myLife)# the litness test for all life on the console!
         
-
+        self.storeDeadNeigors()
+        
         cell_to_kill = self.runDeathLogic()
         cells_to_birth = self.birthLogic()
 
         print("cells to kill", cell_to_kill)
         print("cells to birth:", cells_to_birth)
-        self.storeDeadNeigors()
+      
+        
         
         for cell in cell_to_kill:
             print(cell)
@@ -58,11 +59,18 @@ class life:
             self.grid[row][collum] = 0
         cell_to_kill.clear()
        
+       
+
         for cell in cells_to_birth:
             row = cell[0]
             col = cell[1]
             self.addCell(row, col)
         cells_to_birth.clear()
+
+
+        #print("bottom",myLife)# the litness test for all life on the console!
+
+
 
         
 
@@ -91,11 +99,11 @@ class life:
     # returns cells to kill
     #DOSE NOT KILL CELLS
     def runDeathLogic(self):
-        cell_to_kill = []
+        cell_to_kill = set({})
         for cell in self.livingCellPoscitons:
             #checks if should die
             if self.getNabors(cell) != 2 and self.getNabors(cell) != 3:
-                cell_to_kill.append(cell)
+                cell_to_kill.add(cell)
 
         return cell_to_kill
     
@@ -119,28 +127,34 @@ class life:
 
     
                 
-myLife = life(10)
+myLife = life(1000)
 
 
 
 myLife.addCell(2,2)
-myLife.addCell(2,3)
-myLife.addCell(3,2)
+
+
 myLife.addCell(3,3)
 
-myLife.addCell(5,5)
-myLife.addCell(5,4)
-myLife.addCell(4,5)
-myLife.addCell(4,4)
+myLife.addCell(4,1)
+
+myLife.addCell(4,3)
+
+myLife.addCell(4,2)
 
 
 
+'''
+myLife.addCell(2,2)
+myLife.addCell(1,2)
+myLife.addCell(3,2)
+'''
 
 
-myLife.iterateGrid()
-myLife.iterateGrid()
-myLife.iterateGrid()
-myLife.iterateGrid()
+
+for i in range(10):
+    myLife.iterateGrid()
+#myLife.iterateGrid()
 
 #print("dead nierbors",myLife.deadNeighborCells)
 
