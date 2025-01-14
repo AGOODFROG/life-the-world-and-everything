@@ -31,6 +31,13 @@ class life:
         self.grid[row][column] = 1
         self.livingCellPoscitons.add((row, column)) 
     
+    def removeCell(self, cell):
+        try:
+            self.livingCellPoscitons.remove(cell)
+            self.grid[cell[0]][cell[1]] = 0
+        except:
+            pass
+    
     # make method that adds a list of cells
     def addCellList(self, array):
         for i, j in array:
@@ -38,12 +45,29 @@ class life:
             
     def addDeadNeibor(self, cell):
         self.deadNeighborCells.add(cell)
+    
+    def removeBody(self, cell):
+        row = cell[0]
+        col = cell[0]
+        self.removeCell(cell)
+
+        cell_postions =[(row+1, col+1),(row+1, col),(row-1, col+1),
+                        (row, col+1),                  (row, col-1),
+                        (row+1, col-1),(row-1, col),(row-1, col-1),]
+        for cell in cell_postions:
+            #print(cell)
+            if cell == 1:
+                self.removeCell(cell)
+                self.removeBody(cell)
+        else:
+            return
+
 
     # TODO add a method that iterates the game of life
     def iterateGrid(self):
         while True:
             time.sleep(0.5)
-            print("",myLife)# the litness test for all life on the console!
+            print("",self)# the litness test for all life on the console!
             
             
             self.storeDeadNeigors()
@@ -52,9 +76,7 @@ class life:
             cells_to_birth = self.birthLogic()
 
             for cell in cell_to_kill:  
-                row = cell[0]
-                collum = cell[1]
-                self.grid[row][collum] = 0
+                self.removeCell(cell)
             cell_to_kill.clear()
 
             for cell in cells_to_birth:
@@ -67,21 +89,24 @@ class life:
     # TODO get nabors
     def getNabors(self, postion, addDeadNeibors = False):
         #TODO store result in varible to avoid exstra loops running
-        row = postion[0]
-        collnmum = postion[1]
+        orgin_row = postion[0]
+        orgin_col = postion[1]
+        orgin_cell = (orgin_row, orgin_col)
         out = 0
-        cell_postions =[(row+1, collnmum+1),(row+1, collnmum),(row-1, collnmum+1),
-                        (row, collnmum+1),                      (row, collnmum-1),
-                        (row+1, collnmum-1),(row-1, collnmum),(row-1, collnmum-1),]
+        cell_postions =[(orgin_row+1, orgin_col+1),(orgin_row+1, orgin_col),(orgin_row-1, orgin_col+1),
+                        (orgin_row, orgin_col+1),                      (orgin_row, orgin_col-1),
+                        (orgin_row+1, orgin_col-1),(orgin_row-1, orgin_col),(orgin_row-1, orgin_col-1),]
         for cell in cell_postions:
             #TODO FIX DUPLATION IN ADDDEADNEIBOR
             row = cell[0]
             col = cell[1]
-            if self.grid[row][col] == 1:
-                out += 1
-            elif addDeadNeibors:
-                self.addDeadNeibor(cell)
-        return out
+            
+                if self.grid[row][col] == 1:
+                    out += 1
+                elif addDeadNeibors:
+                    self.addDeadNeibor(cell)
+            except:
+                self.removeCell(orgin_cell)
 
     # returns cells to kill
     #DOSE NOT KILL CELLS
@@ -105,7 +130,11 @@ class life:
         return cells_to_birth
     def storeDeadNeigors(self):
         for cell in self.livingCellPoscitons:
-            self.getNabors(cell, True)# get DeadNeigors
+            try:
+                self.getNabors(cell, True)# get DeadNeigors
+            except:
+                self.removeBody(cell)
+              
 
 
 myLife = life(10)
