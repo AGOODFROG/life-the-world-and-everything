@@ -100,14 +100,11 @@ class life:
             #TODO FIX DUPLATION IN ADDDEADNEIBOR
             row = cell[0]
             col = cell[1]
+            if self.grid[row][col] == 1:
+                out += 1
+            else:
+                self.addDeadNeibor(cell)
             
-                if self.grid[row][col] == 1:
-                    out += 1
-                elif addDeadNeibors:
-                    self.addDeadNeibor(cell)
-            except:
-                self.removeCell(orgin_cell)
-
     # returns cells to kill
     #DOSE NOT KILL CELLS
     def runDeathLogic(self):
@@ -130,10 +127,9 @@ class life:
         return cells_to_birth
     def storeDeadNeigors(self):
         for cell in self.livingCellPoscitons:
-            try:
-                self.getNabors(cell, True)# get DeadNeigors
-            except:
-                self.removeBody(cell)
+            self.getNabors(cell, True)# get DeadNeigors
+            
+               
               
 
 
